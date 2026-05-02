@@ -1,0 +1,22 @@
+# Build outputs
+bin/
+obj/
+dist/
+build-verify/
+images/
+
+# Microsoft Store submission materials and generated packages.
+# Keep public-facing docs such as PRIVACY.md at the repository root instead.
+store-submission/
+
+# Root-level MSIX build script (local only; do not commit).
+/build-msix.ps1
+
+# Local editor and OS files
+.vs/
+.vscode/
+*.user
+*.suo
+Thumbs.db
+Desktop.ini
+

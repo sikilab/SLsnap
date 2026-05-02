@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 
@@ -44,7 +45,7 @@ namespace WinScreen
             _copyButton = new Button { AutoSize = true };
             _closeButton.Click += (s, e) => Close();
             _saveButton.Click += (s, e) => SaveImage();
-            _copyButton.Click += (s, e) => Clipboard.SetImage(_bitmap);
+            _copyButton.Click += (s, e) => CopyToClipboard();
 
             topBar.Controls.Add(_closeButton);
             topBar.Controls.Add(_saveButton);
@@ -62,6 +63,7 @@ namespace WinScreen
             Controls.Add(topBar);
 
             ApplyScale();
+            UpdateWindowRegion();
 
             MouseDown += OnDragStart;
             MouseMove += OnDragMove;
@@ -81,6 +83,11 @@ namespace WinScreen
             _closeButton.Text = Localization.Get(language, "ButtonClose");
             _saveButton.Text = Localization.Get(language, "ButtonSave");
             _copyButton.Text = Localization.Get(language, "ButtonCopy");
+        }
+
+        public void CopyToClipboard()
+        {
+            Clipboard.SetImage(_bitmap);
         }
 
         private void OnDragStart(object sender, MouseEventArgs e)
@@ -112,6 +119,7 @@ namespace WinScreen
         {
             Width = Math.Max(180, (int)(_bitmap.Width * _scale) + 20);
             Height = Math.Max(140, (int)(_bitmap.Height * _scale) + 60);
+            UpdateWindowRegion();
         }
 
         private void StyleActionButton(Button button, Color backColor)
@@ -137,6 +145,47 @@ namespace WinScreen
                     _bitmap.Save(dialog.FileName);
                 }
             }
+        }
+
+        public string SaveToDefaultDirectory()
+        {
+            Directory.CreateDirectory(_saveDirectory);
+            string filePath = Path.Combine(_saveDirectory, "slsnap-" + DateTime.Now.ToString("yyyyMMdd-HHmmss-fff") + ".png");
+            _bitmap.Save(filePath);
+            return filePath;
+        }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            UpdateWindowRegion();
+        }
+
+        private void UpdateWindowRegion()
+        {
+            if (Width <= 0 || Height <= 0)
+            {
+                return;
+            }
+
+            using (GraphicsPath path = CreateRoundedPath(new Rectangle(0, 0, Width, Height), 18))
+            {
+                Region = new Region(path);
+            }
+        }
+
+        private static GraphicsPath CreateRoundedPath(Rectangle bounds, int radius)
+        {
+            int diameter = radius * 2;
+            int right = bounds.Right - 1;
+            int bottom = bounds.Bottom - 1;
+            GraphicsPath path = new GraphicsPath();
+            path.AddArc(bounds.Left, bounds.Top, diameter, diameter, 180, 90);
+            path.AddArc(right - diameter, bounds.Top, diameter, diameter, 270, 90);
+            path.AddArc(right - diameter, bottom - diameter, diameter, diameter, 0, 90);
+            path.AddArc(bounds.Left, bottom - diameter, diameter, diameter, 90, 90);
+            path.CloseFigure();
+            return path;
         }
     }
 }

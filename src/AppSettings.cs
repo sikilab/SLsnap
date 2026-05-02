@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Web.Script.Serialization;
 
@@ -18,7 +19,7 @@ namespace WinScreen
                 Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
                 AppInfo.ProductName);
             LaunchAtStartup = false;
-            Language = "en";
+            Language = GetDefaultLanguage();
         }
 
         public static string AppDirectory
@@ -52,7 +53,12 @@ namespace WinScreen
             {
                 var serializer = new JavaScriptSerializer();
                 var value = serializer.Deserialize<AppSettings>(File.ReadAllText(SettingsPath));
-                return value ?? new AppSettings();
+                if (value == null)
+                {
+                    return new AppSettings();
+                }
+                value.Normalize();
+                return value;
             }
             catch
             {
@@ -62,10 +68,39 @@ namespace WinScreen
 
         public void Save()
         {
+            Normalize();
             Directory.CreateDirectory(AppDirectory);
             Directory.CreateDirectory(SaveDirectory);
             var serializer = new JavaScriptSerializer();
             File.WriteAllText(SettingsPath, serializer.Serialize(this));
+        }
+
+        private void Normalize()
+        {
+            if (string.IsNullOrWhiteSpace(CaptureHotkey))
+            {
+                CaptureHotkey = "Ctrl+Alt+A";
+            }
+            if (string.IsNullOrWhiteSpace(SaveDirectory))
+            {
+                SaveDirectory = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
+                    AppInfo.ProductName);
+            }
+            if (string.IsNullOrWhiteSpace(Language))
+            {
+                Language = GetDefaultLanguage();
+            }
+        }
+
+        private static string GetDefaultLanguage()
+        {
+            var name = CultureInfo.InstalledUICulture.Name;
+            if (!string.IsNullOrEmpty(name) && name.StartsWith("zh", StringComparison.OrdinalIgnoreCase))
+            {
+                return "zh";
+            }
+            return "en";
         }
     }
 }

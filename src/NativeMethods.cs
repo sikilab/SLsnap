@@ -11,6 +11,7 @@ namespace WinScreen
         public const uint MOD_SHIFT = 0x0004;
         public const uint MOD_WIN = 0x0008;
         public const int HOTKEY_ID = 0x5142;
+        private const int HOTKEY_TEST_ID = 0x5143;
         private static readonly IntPtr DpiAwareContextPerMonitorAwareV2 = new IntPtr(-4);
         private static readonly IntPtr DpiAwareContextPerMonitorAware = new IntPtr(-3);
 
@@ -51,6 +52,17 @@ namespace WinScreen
             catch
             {
             }
+        }
+
+        public static bool CanRegisterHotkey(uint modifiers, uint keyCode)
+        {
+            if (!RegisterHotKey(IntPtr.Zero, HOTKEY_TEST_ID, modifiers, keyCode))
+            {
+                return false;
+            }
+
+            UnregisterHotKey(IntPtr.Zero, HOTKEY_TEST_ID);
+            return true;
         }
     }
 }

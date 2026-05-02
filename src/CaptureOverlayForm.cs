@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace WinScreen
@@ -45,6 +46,7 @@ namespace WinScreen
             FormBorderStyle = FormBorderStyle.None;
             ShowInTaskbar = false;
             TopMost = true;
+            StartPosition = FormStartPosition.Manual;
             Cursor = Cursors.Cross;
             Bounds = SystemInformation.VirtualScreen;
             DoubleBuffered = true;
@@ -70,6 +72,7 @@ namespace WinScreen
             _aspectRatio = 1d;
             _toolbar.Visible = false;
             RefreshLanguage(language);
+            Bounds = snapshotBounds;
             Cursor = Cursors.Cross;
             Show();
             Activate();
@@ -196,12 +199,14 @@ namespace WinScreen
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
             if (_snapshot != null)
             {
-                e.Graphics.DrawImage(_snapshot, _snapshotBounds);
+                e.Graphics.DrawImage(_snapshot, ClientRectangle);
             }
 
-            using (Brush overlayBrush = new SolidBrush(Color.FromArgb(120, 9, 12, 18)))
+            using (Brush overlayBrush = new SolidBrush(Color.FromArgb(92, 6, 23, 49)))
             {
                 if (_selection == Rectangle.Empty)
                 {
@@ -219,19 +224,31 @@ namespace WinScreen
 
             if (_selection != Rectangle.Empty)
             {
-                Rectangle clientSelection = ClientSelection;
-                using (Pen borderPen = new Pen(Color.FromArgb(56, 189, 248), 2f))
+                Rectangle clientSelection = InflateForPaint(ClientSelection, 0);
+                using (Pen outerPen = new Pen(Color.White, 3f))
                 {
+                    outerPen.DashStyle = DashStyle.Dash;
+                    outerPen.DashPattern = new float[] { 3f, 3f };
+                    outerPen.Alignment = PenAlignment.Inset;
+                    e.Graphics.DrawRectangle(outerPen, clientSelection);
+                }
+
+                using (Pen borderPen = new Pen(Color.FromArgb(37, 99, 235), 1.5f))
+                {
+                    borderPen.DashStyle = DashStyle.Dash;
+                    borderPen.DashPattern = new float[] { 3f, 3f };
+                    borderPen.Alignment = PenAlignment.Inset;
                     e.Graphics.DrawRectangle(borderPen, clientSelection);
                 }
 
                 foreach (Rectangle handle in GetHandleRects())
                 {
-                    using (Brush fill = new SolidBrush(Color.White))
-                    using (Pen border = new Pen(Color.FromArgb(14, 165, 233), 1f))
+                    Rectangle paintedHandle = InflateForPaint(handle, 0);
+                    using (Brush fill = new SolidBrush(Color.FromArgb(59, 130, 246)))
+                    using (Pen border = new Pen(Color.White, 2f))
                     {
-                        e.Graphics.FillRectangle(fill, handle);
-                        e.Graphics.DrawRectangle(border, handle);
+                        e.Graphics.FillRectangle(fill, paintedHandle);
+                        e.Graphics.DrawRectangle(border, paintedHandle);
                     }
                 }
             }
@@ -349,6 +366,11 @@ namespace WinScreen
                 new Rectangle(midX - half, rect.Bottom - half, HandleSize, HandleSize),
                 new Rectangle(rect.Right - half, rect.Bottom - half, HandleSize, HandleSize)
             };
+        }
+
+        private static Rectangle InflateForPaint(Rectangle rect, int amount)
+        {
+            return new Rectangle(rect.X - amount, rect.Y - amount, rect.Width + amount * 2, rect.Height + amount * 2);
         }
 
         private void UpdateCursorForMode(DragMode mode)
