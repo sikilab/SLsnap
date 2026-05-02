@@ -159,17 +159,17 @@ SLSnap 是一个 Windows 桌面截图贴图工具。
 
 ![image](images/image-2026-05-02T07-34-27-072Z-39823b.png)
 
-#### 10.2 截图选区界面
+#### 10.2 设置界面
+
+![image](images/image-2026-05-02T07-29-09-291Z-c112d6.png)
+
+#### 10.3 截图选区界面
 
 ![image](images/image-2026-05-02T07-18-34-860Z-b30991.png)
 
-#### 10.3 贴图窗口示意
+#### 10.4 贴图窗口示意
 
 ![image](images/image-2026-05-02T07-18-52-973Z-251e8e.png)
-
-#### 10.4 设置界面
-
-![image](images/image-2026-05-02T07-29-09-291Z-c112d6.png)
 
 ---
 
@@ -330,16 +330,16 @@ You can replace the placeholder paths below with real screenshots later.
 
 #### 10.1 Tray Icon and Menu
 
-![Tray icon and menu placeholder](./images/tray-menu-placeholder.png)
+![image](images/image-2026-05-02T07-34-27-072Z-39823b.png)
 
-#### 10.2 Capture Selection Screen
+#### 10.2 Settings Screen
 
-![Capture selection placeholder](./images/capture-overlay-placeholder.png)
+![image](images/image-2026-05-02T07-29-09-291Z-c112d6.png)
 
-#### 10.3 Sticker Window
+#### 10.3 Capture Selection Screen
 
-![Sticker window placeholder](./images/sticker-window-placeholder.png)
+![image](images/image-2026-05-02T07-18-34-860Z-b30991.png)
 
-#### 10.4 Settings Screen
+#### 10.4 Sticker Window
 
-![Settings placeholder](./images/settings-placeholder.png)
+![image](images/image-2026-05-02T07-18-52-973Z-251e8e.png)
