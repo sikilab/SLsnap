@@ -64,11 +64,26 @@ SLSnap 是一个 Windows 桌面截图贴图工具。
 
 将鼠标移到贴图图片区域，滚动鼠标滚轮即可放大或缩小。
 
-#### 5.3 复制贴图
+#### 5.3 标注贴图
+
+贴图顶部提供标注工具栏，可在截图上添加空心方形、空心圆形、手绘圈、箭头、文字和马赛克遮盖。
+
+- 选择对应图标工具后，在图片区域拖动即可绘制图形、箭头或 100% 不透明马赛克
+- 选择文字工具后点击图片，可直接在图上输入；文字框横向不够时会自动折行，内容超高时会向下增长；字号范围为 12-30
+- 鼠标点击已添加的标注即可选中，按住左键拖动可调整位置，按 `Delete` 可删除
+- 选中标注后可用方向键按 1 像素移动，按住 `Shift` 再按方向键可按 10 像素移动
+- 选中后拖动角点或边点可调整大小；拖动角点时按住 `Shift` 可等比调整；圆形可通过边点拉成椭圆；文字层可调整文字框大小并通过工具栏修改字号，箭头可拖动两端控制点调整长度和方向
+- 按住 `Shift` 点击，可同时选中多个图形或文字
+- 使用两个固定色盘可调整选中标注的本身颜色和描边颜色，描边色盘支持“无”
+- 工具栏位于贴片底部，鼠标悬停图标可查看功能名称
+- 按 `Ctrl+Z` 可撤回上一步，按 `Ctrl+Y` 可重做
+- 复制、保存和保存全部贴片时，会输出包含标注的合成图片
+
+#### 5.4 复制贴图
 
 点击贴图窗口上的“复制”按钮，可将当前截图复制到剪贴板，方便直接粘贴到聊天工具、文档、邮件或其他应用中。
 
-#### 5.4 保存贴图
+#### 5.5 保存贴图
 
 点击贴图窗口上的“保存”按钮，可将当前截图保存为 PNG 文件。
 
@@ -78,7 +93,7 @@ SLSnap 是一个 Windows 桌面截图贴图工具。
 
 如果你已在设置中修改保存目录，则会保存到你指定的位置。
 
-#### 5.5 关闭贴图
+#### 5.6 关闭贴图
 
 点击贴图窗口上的“关闭”按钮，可关闭当前贴图。
 
@@ -237,11 +252,26 @@ Drag the top area of the sticker window to move it.
 
 Move the mouse over the image area and use the mouse wheel to zoom in or out.
 
-#### 5.3 Copy the Sticker
+#### 5.3 Annotate the Sticker
+
+The sticker toolbar lets you add outline rectangles, outline circles, freehand circles, arrows, text, and mosaic covers on top of the screenshot.
+
+- Select an icon tool, then drag on the image to create shapes, arrows, or 100% opaque mosaic covers
+- Select the text tool, click the image, and type directly on the canvas; text wraps when the box is too narrow and grows downward when content is taller; text size is limited to 12-30
+- Click an existing annotation to select it, then hold the left mouse button and drag to move it, or press `Delete` to remove it
+- Use arrow keys to move selected annotations by 1 pixel, or hold `Shift` with arrow keys to move by 10 pixels
+- Drag selected corner or side handles to resize annotations; hold `Shift` while dragging a corner handle to keep ratio; circles can be stretched into ellipses with side handles; text layers can resize their text box and use the toolbar size control, while arrows can change length and direction by dragging endpoints
+- Hold `Shift` and click to select multiple shapes or text annotations
+- Use the two fixed color swatches to adjust selected annotations' primary color and outline color; the outline swatch supports `None`
+- The toolbar is at the bottom of the sticker, and hovering over an icon shows its function name
+- Press `Ctrl+Z` to undo and `Ctrl+Y` to redo
+- Copy, save, and save-all export the composed image with annotations
+
+#### 5.4 Copy the Sticker
 
 Click the `Copy` button to copy the current screenshot to the clipboard, so you can paste it into chat tools, documents, emails, or other apps.
 
-#### 5.4 Save the Sticker
+#### 5.5 Save the Sticker
 
 Click the `Save` button to save the current screenshot as a PNG file.
 
@@ -251,7 +281,7 @@ The default save folder is:
 
 If you changed the save folder in Settings, the image will be saved to your custom location.
 
-#### 5.5 Close the Sticker
+#### 5.6 Close the Sticker
 
 Click the `Close` button to close the current sticker.
 
